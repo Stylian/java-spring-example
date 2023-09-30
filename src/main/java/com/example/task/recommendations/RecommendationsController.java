@@ -1,17 +1,12 @@
-package com.example.task.controllers;
+package com.example.task.recommendations;
 
-import com.example.task.dtos.CryptoProperty;
-import com.example.task.dtos.Order;
-import com.example.task.dtos.CryptoFilterCondition;
-import com.example.task.exceptions.CryptoNotFoundException;
-import com.example.task.exceptions.InvalidDateException;
-import com.example.task.services.RecommendationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +32,11 @@ public class RecommendationsController {
         }
 
         if(cryptosProperty.equals(CryptoProperty.NORMALIZED_RANGE)) {
-            return recommendationsService.getCryptosByNormalizedRange(order);
+            try {
+                return recommendationsService.getCryptosSymbolsByNormalizedRange(order);
+            } catch (IOException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "");
+            }
         }else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "unimplemented sorting");
         }
@@ -89,6 +88,8 @@ public class RecommendationsController {
             }
         }catch(InvalidDateException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no date for the specified date have been found");
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "");
         }
     }
 }

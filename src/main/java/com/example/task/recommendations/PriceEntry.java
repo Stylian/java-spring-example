@@ -1,19 +1,19 @@
-package com.example.task.beans;
+package com.example.task.recommendations;
 
 import com.opencsv.bean.CsvBind;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
-public class PriceEntryBean {
+public class PriceEntry {
     @CsvBind
-    private Timestamp timestamp;
+    private long timestamp;
     @CsvBind
     private String symbol;
     @CsvBind
     private double price;
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Date getDate() {
+        return new Date(timestamp);
     }
 
     public String getSymbol() {

@@ -1,0 +1,2 @@
+
+http://localhost:8080/api/recommendations/cryptos?sort_by=normalized_range.desc

@@ -1,7 +1,8 @@
-package com.example.task.controllers;
+package com.example.task.recommendations;
 
-import com.example.task.exceptions.CryptoNotFoundException;
-import com.example.task.services.RecommendationsService;
+import com.example.task.recommendations.CryptoNotFoundException;
+import com.example.task.recommendations.RecommendationsController;
+import com.example.task.recommendations.RecommendationsService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -26,7 +27,7 @@ public class RecommendationsControllerTests {
     private RecommendationsService recommendationsService;
     @Test
     public void testGetCryptosSortedBadRequests() throws Exception {
-        Mockito.when(recommendationsService.getCryptosByNormalizedRange(any()))
+        Mockito.when(recommendationsService.getCryptosSymbolsByNormalizedRange(any()))
                 .thenReturn(Arrays.asList(new String[]{"BTC", "DOGE"}));
 
         mockMvc.perform((MockMvcRequestBuilders.get("/api/recommendations/cryptos?sort_by=normalized_range:desc")))
@@ -38,7 +39,7 @@ public class RecommendationsControllerTests {
     }
     @Test
     public void testGetCryptosSorted() throws Exception {
-        Mockito.when(recommendationsService.getCryptosByNormalizedRange(any()))
+        Mockito.when(recommendationsService.getCryptosSymbolsByNormalizedRange(any()))
                 .thenReturn(Arrays.asList(new String[]{"BTC", "DOGE"}));
 
         String response = mockMvc.perform((MockMvcRequestBuilders.get("/api/recommendations/cryptos?sort_by=normalized_range.desc")))

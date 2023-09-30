@@ -1,4 +1,4 @@
-package com.example.task.dtos;
+package com.example.task.recommendations;
 
 public enum CryptoProperty {
     NORMALIZED_RANGE;
