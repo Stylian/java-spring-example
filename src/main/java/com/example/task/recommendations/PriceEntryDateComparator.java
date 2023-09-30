@@ -1,7 +1,9 @@
 package com.example.task.recommendations;
 
 import java.util.Comparator;
-
+/**
+ * ascending comparator
+ */
 public class PriceEntryDateComparator implements Comparator<PriceEntry> {
     @Override
     public int compare(PriceEntry o1, PriceEntry o2) {

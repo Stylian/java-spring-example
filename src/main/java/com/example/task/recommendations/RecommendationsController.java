@@ -31,13 +31,13 @@ public class RecommendationsController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "the field does not exist or the sorting direction is incorrect");
         }
 
-        if(cryptosProperty.equals(CryptoProperty.NORMALIZED_RANGE)) {
+        if (cryptosProperty.equals(CryptoProperty.NORMALIZED_RANGE)) {
             try {
                 return recommendationsService.getCryptosSymbolsByNormalizedRange(order);
             } catch (IOException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "");
             }
-        }else {
+        } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "unimplemented sorting");
         }
     }
@@ -81,12 +81,12 @@ public class RecommendationsController {
         }
 
         try {
-            if(cryptosProperty.equals(CryptoProperty.NORMALIZED_RANGE) && cryptoFilterCondition.equals(CryptoFilterCondition.MAX)) {
+            if (cryptosProperty.equals(CryptoProperty.NORMALIZED_RANGE) && cryptoFilterCondition.equals(CryptoFilterCondition.MAX)) {
                 return recommendationsService.getCryptoWithHighestNormalizedRangeForDate(date);
-            }else {
+            } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "unimplemented sorting");
             }
-        }catch(InvalidDateException e) {
+        } catch (InvalidDateException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no date for the specified date have been found");
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "");

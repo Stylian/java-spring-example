@@ -1,12 +1,13 @@
 package com.example.task.recommendations;
 
-import com.example.task.recommendations.PriceEntry;
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,19 +18,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CryptoReaderUtils {
-
-    public static List<String> getAvailableCryptos() throws IOException {
+@Component
+public class CryptoCsvReader {
+    @Cacheable("cryptos")
+    public List<String> getAvailableCryptos() throws IOException {
         try {
             return Arrays.stream(new File(ClassLoader.getSystemResource("Prices").toURI()).listFiles())
                     .filter( file -> file.getName().endsWith("_values.csv"))
                     .map(file -> file.getName().replace("_values.csv", ""))
                     .collect(Collectors.toList());
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new IOException(e);
         }
     }
-    public static List<PriceEntry> getDataForCrypto(String file) throws FileNotFoundException {
+    @Cacheable("cryptoPriceEntries")
+    public List<PriceEntry> getDataForCrypto(String file) throws FileNotFoundException {
         String path = ClassLoader.getSystemResource("Prices/" + file + "_values.csv").getPath();
         FileReader filereader = new FileReader(path);
         CSVParser parser = new CSVParserBuilder().withSeparator(',').build();
@@ -43,5 +46,4 @@ public class CryptoReaderUtils {
         mappingStrategy.setColumnMapping(new String[]{"timestamp", "symbol", "price"});
         return csvToBean.parse(mappingStrategy, csvReader);
     }
-
 }

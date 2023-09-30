@@ -1,8 +1,5 @@
 package com.example.task.recommendations;
 
-import com.example.task.recommendations.CryptoNotFoundException;
-import com.example.task.recommendations.RecommendationsController;
-import com.example.task.recommendations.RecommendationsService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
