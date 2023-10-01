@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,7 +24,8 @@ public class CryptoCsvReader {
     @Cacheable("cryptos")
     public List<String> getAvailableCryptos() throws IOException {
         try {
-            return Arrays.stream(new File(ClassLoader.getSystemResource("Prices").toURI()).listFiles())
+            return Arrays.stream(Objects.requireNonNull(new File(ClassLoader.getSystemResource("Prices")
+                            .toURI()).listFiles()))
                     .filter( file -> file.getName().endsWith("_values.csv"))
                     .map(file -> file.getName().replace("_values.csv", ""))
                     .collect(Collectors.toList());
@@ -41,9 +43,9 @@ public class CryptoCsvReader {
                 .withSkipLines(1)
                 .build();
         CsvToBean<PriceEntry> csvToBean = new CsvToBean<>();
-        ColumnPositionMappingStrategy mappingStrategy = new ColumnPositionMappingStrategy<>();
+        ColumnPositionMappingStrategy<PriceEntry> mappingStrategy = new ColumnPositionMappingStrategy<>();
         mappingStrategy.setType(PriceEntry.class);
-        mappingStrategy.setColumnMapping(new String[]{"timestamp", "symbol", "price"});
+        mappingStrategy.setColumnMapping("timestamp", "symbol", "price");
         return csvToBean.parse(mappingStrategy, csvReader);
     }
 }

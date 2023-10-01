@@ -1,5 +1,7 @@
 package com.example.task.recommendations;
 
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -17,8 +19,14 @@ public class RecommendationsController {
     @Autowired
     private RecommendationsService recommendationsService;
 
+    @ExceptionHandler({ RequestNotPermitted.class })
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    public void requestNotPermitted() {
+    }
+
     // cryptos?sort_by=normalized_range.desc
     @GetMapping("/cryptos")
+    @RateLimiter(name = "recommendationsRateLimiter")
     public List<String> getCryptosSorted(@RequestParam(name = "sort_by") String sortBy) {
 
         if (!sortBy.contains(".")) {
@@ -44,7 +52,7 @@ public class RecommendationsController {
 
     // cryptos/{crypto}/values?filter=min
     @GetMapping("/cryptos/{crypto}/values")
-    @ResponseBody
+    @RateLimiter(name = "recommendationsRateLimiter")
     public double getCryptoValues(
             @PathVariable String crypto,
             @RequestParam String filter
@@ -64,7 +72,7 @@ public class RecommendationsController {
 
     // crypto?field=normalized_range:max&date=2023-10-21
     @GetMapping("/crypto")
-    @ResponseBody
+    @RateLimiter(name = "recommendationsRateLimiter")
     public String getCryptoByDateAndFieldCondition(
             @RequestParam String field,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date date

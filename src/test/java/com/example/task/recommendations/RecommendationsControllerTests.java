@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -22,6 +23,7 @@ public class RecommendationsControllerTests {
     private MockMvc mockMvc;
     @MockBean
     private RecommendationsService recommendationsService;
+
     @Test
     public void testGetCryptosSortedBadRequests() throws Exception {
         Mockito.when(recommendationsService.getCryptosSymbolsByNormalizedRange(any()))
@@ -34,6 +36,7 @@ public class RecommendationsControllerTests {
         mockMvc.perform((MockMvcRequestBuilders.get("/api/recommendations/cryptos?sort_by=normalized_range.blue")))
                 .andExpect(status().isBadRequest());
     }
+
     @Test
     public void testGetCryptosSorted() throws Exception {
         Mockito.when(recommendationsService.getCryptosSymbolsByNormalizedRange(any()))
@@ -45,6 +48,7 @@ public class RecommendationsControllerTests {
 
         Assertions.assertEquals("[\"BTC\",\"DOGE\"]", response);
     }
+
     @Test
     public void testGetCryptoValues() throws Exception {
         Mockito.when(recommendationsService.getPrice(anyString(), any()))
@@ -56,6 +60,7 @@ public class RecommendationsControllerTests {
 
         Assertions.assertEquals(5000d, Double.parseDouble(response));
     }
+
     @Test
     public void testGetCryptoValuesCryptoNotFound() throws Exception {
         Mockito.when(recommendationsService.getPrice(anyString(), any()))
@@ -64,6 +69,7 @@ public class RecommendationsControllerTests {
         mockMvc.perform((MockMvcRequestBuilders.get("/api/recommendations/cryptos/NOCOIN/values?filter=min")))
                 .andExpect(status().isNotFound());
     }
+
     @Test
     public void testGetCryptoByDateAndFieldCondition() throws Exception {
         Mockito.when(recommendationsService.getCryptoWithHighestNormalizedRangeForDate(any(Date.class)))
@@ -75,17 +81,18 @@ public class RecommendationsControllerTests {
 
         Assertions.assertEquals("BTC", response);
     }
+
     @Test
     public void testGetCryptoByDateAndFieldConditionMissingParamsError() throws Exception {
         Mockito.when(recommendationsService.getCryptoWithHighestNormalizedRangeForDate(any(Date.class)))
                 .thenReturn("BTC");
 
         mockMvc.perform((MockMvcRequestBuilders.get("/api/recommendations/crypto?field=normalized_range:max")))
-                 .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest());
         mockMvc.perform((MockMvcRequestBuilders.get("/api/recommendations/crypto?field=normalized_range:not_max&date=2023-10-21")))
-                 .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest());
         mockMvc.perform((MockMvcRequestBuilders.get("/api/recommendations/crypto?field=field_that_does_not_exist:max&date=2023-10-21")))
-                 .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest());
     }
 
 }
