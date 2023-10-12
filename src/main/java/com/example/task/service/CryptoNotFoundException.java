@@ -1,4 +1,4 @@
-package com.example.task.recommendations;
+package com.example.task.service;
 
 public class CryptoNotFoundException extends Exception {
 }

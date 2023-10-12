@@ -1,5 +1,7 @@
-package com.example.task.recommendations;
+package com.example.task.service;
 
+import com.example.task.domain.*;
+import com.example.task.repository.CryptosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;

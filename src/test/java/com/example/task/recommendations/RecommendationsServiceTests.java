@@ -1,5 +1,10 @@
 package com.example.task.recommendations;
 
+import com.example.task.domain.Crypto;
+import com.example.task.domain.CryptoFilterCondition;
+import com.example.task.service.CryptoNotFoundException;
+import com.example.task.domain.Order;
+import com.example.task.service.RecommendationsService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

@@ -1,5 +1,9 @@
-package com.example.task.recommendations;
+package com.example.task.controller;
 
+import com.example.task.domain.*;
+import com.example.task.service.CryptoNotFoundException;
+import com.example.task.service.InvalidDateException;
+import com.example.task.service.RecommendationsService;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;

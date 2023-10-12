@@ -1,5 +1,6 @@
-package com.example.task.recommendations;
+package com.example.task.service;
 
+import com.example.task.domain.PriceEntry;
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;

@@ -1,5 +1,9 @@
-package com.example.task.recommendations;
+package com.example.task.repository;
 
+import com.example.task.domain.*;
+import com.example.task.service.CryptoCsvReader;
+import com.example.task.service.CryptoNotFoundException;
+import com.example.task.service.InvalidDateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;

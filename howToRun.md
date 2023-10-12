@@ -1,8 +1,9 @@
+./gradlew clean build 
 
 # With docker-compose
 docker compose up -d
 
-# With minikube
+# Or with minikube
 ## Start minikube
 minikube start
 ## Build image

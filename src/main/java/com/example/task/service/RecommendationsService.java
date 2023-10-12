@@ -1,4 +1,6 @@
-package com.example.task.recommendations;
+package com.example.task.service;
+
+import com.example.task.domain.*;
 
 import java.io.IOException;
 import java.util.Date;

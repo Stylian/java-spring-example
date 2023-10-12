@@ -1,4 +1,4 @@
-package com.example.task.recommendations;
+package com.example.task.domain;
 
 public class Crypto {
     private String symbol;

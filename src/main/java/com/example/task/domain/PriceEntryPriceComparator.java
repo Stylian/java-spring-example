@@ -1,4 +1,6 @@
-package com.example.task.recommendations;
+package com.example.task.domain;
+
+import com.example.task.domain.PriceEntry;
 
 import java.util.Comparator;
 
